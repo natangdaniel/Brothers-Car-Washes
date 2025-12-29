@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>האחים מכונית בע"מ 🚗💦🧽 – שטיפת רכבים</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url('background.jpg') center/cover fixed no-repeat;
+      color: #222;
+    }
+    header {
+      background: transparent;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 116, 218, 0.7);
+    }
+    header * {
+      position: relative;
+      z-index: 1;
+    }
+    section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0a74da;
+    }
+    ul {
+      line-height: 1.8;
+    }
+    .prices li {
+      font-weight: bold;
+    }
+    .order-form label {
+      display: block;
+      margin-top: 10px;
+    }
+    .order-form input, .order-form select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px;
+      width: 100%;
+      background: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #095bb0;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>האחים מכונית בע"מ 🚗💦🧽</h1>
+  <p>שטיפת רכבים מקצועית ומהירה ✨🚘</p>
+</header>
+
+<section>
+  <h2>שעות פתיחה</h2>
+  <p>🕘 09:00 – 14:30</p>
+  <p>
+    ימי פתיחה: <strong>יום שישי בלבד</strong><br />
+    חופשות: <strong>חופשת פסח (וגם חלק מהחופש הגדול)</strong>
+  </p>
+</section>
+
+<section>
+  <h2>מחירים</h2>
+  <ul class="prices">
+    <li>🚗 פנים + חוץ: 60 ₪</li>
+    <li>🚿 חוץ בלבד: 25 ₪</li>
+    <li>🧼 פנים בלבד: 30 ₪</li>
+  </ul>
+</section>
+
+<section>
+  <h2>זמן שטיפה</h2>
+  <p>⏱ זמן השטיפה לוקח בין <strong>35 ל־45 דקות</strong></p>
+</section>
+
+<section>
+  <h2>הזמנת שטיפה</h2>
+  <form class="order-form" onsubmit="sendWhatsApp(event)">
+    <label>שם מלא</label>
+    <input type="text" id="name" required />
+
+    <label>מספר טלפון</label>
+    <input type="tel" id="phone" required />
+
+    <label>סוג שטיפה</label>
+    <select id="service" required>
+      <option value="פנים וחוץ">פנים וחוץ – 60 ₪</option>
+      <option value="חוץ בלבד">חוץ בלבד – 25 ₪</option>
+      <option value="פנים בלבד">פנים בלבד – 30 ₪</option>
+    </select>
+
+    <label>שעה (במרווחים של 45 דקות)</label>
+    <small style="color:#666">שעות אפורות = תפוסות</small>
+    <select id="time" required></select>
+
+    <button type="submit">שלח הזמנה בוואטסאפ</button>
+  </form>
+</section>
+
+<footer>
+  <p>© האחים מכונית בע"מ 🚗💦</p>
+</footer>
+
+<script>
+  // שעות תפוסות (דוגמה – אפשר לשנות ידנית)
+  // שעות תפוסות ידניות
+  let takenTimes = ['10:30','11:15'];
+
+
+  function sendWhatsApp(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const service = document.getElementById('service').value;
+    const time = document.getElementById('time').value;
+
+    const businessNumber = '0585378542';
+
+    const messageToBusiness = `שלום,\nהתקבלה הזמנה חדשה לשטיפת רכב:\nשם: ${name}\nטלפון: ${phone}\nסוג שטיפה: ${service}
+שעה: ${time}`;
+
+    const messageToCustomer = `שלום ${name},\nההזמנה שלך לשטיפת רכב (${service}) בשעה ${time} התקבלה.\nזמן משוער: 35–45 דקות.\nנתראה! האחים מכונית`;
+
+    // פתיחת וואטסאפ לעסק בלבד (חלון אחד – הכי יציב)
+    const url = `https://wa.me/972${businessNumber}?text=${encodeURIComponent(messageToBusiness)}`;
+    // סימון השעה כתפוסה בדפדפן (לא גלובלי)
+    takenTimes.push(time);
+    localStorage.setItem('takenTimes', JSON.stringify(takenTimes));
+
+    window.location.href = url;
+  }
+  // יצירת שעות אוטומטית מ־09:00 עד 14:30 כל 45 דקות
+  const timeSelect = document.getElementById('time');
+  let start = 9 * 60;
+  let end = 14 * 60 + 30;
+
+  while (start <= end) {
+    const h = String(Math.floor(start / 60)).padStart(2, '0');
+    const m = String(start % 60).padStart(2, '0');
+    const timeStr = `${h}:${m}`;
+    const option = document.createElement('option');
+    option.value = timeStr;
+    option.textContent = timeStr;
+
+    // אם השעה תפוסה – לא ניתן לבחור
+    if (takenTimes.includes(timeStr)) {
+      option.disabled = true;
+      option.textContent += ' (תפוס)';
+    }
+
+    timeSelect.appendChild(option);
+    start += 45;
+  }
+</script>
+
+</body>
+</html>
