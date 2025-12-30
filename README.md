@@ -158,4 +158,4 @@ function sendWA(e){
 }
 </script>
 
-</body> אתה יכול להכין לי מהקוד הזה קישור  
+</body>  
